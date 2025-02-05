@@ -1,0 +1,22 @@
+services:
+  pgdatabase:
+    image: postgres:13
+    environment:
+      - name=value
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=cover_gen
+    volumes:
+      - ./cover_gen_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - name=value
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - 8080:80
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin

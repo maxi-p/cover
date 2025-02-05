@@ -34,3 +34,10 @@ build/
 
 # Mac
 .DS_Store
+**/.DS_Store
+
+### Docker ###
+
+# Data volumes
+/cover_gen_postgres_data
+/pgadmin_data
