@@ -2,7 +2,6 @@ services:
   pgdatabase:
     image: postgres:13
     environment:
-      - name=value
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=cover_gen
@@ -10,6 +9,8 @@ services:
       - ./cover_gen_postgres_data:/var/lib/postgresql/data
     ports:
       - "5434:5432"
+    networks:
+      - cover_gen
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -20,3 +21,19 @@ services:
       - 8080:80
     volumes:
       - ./pgadmin_data:/var/lib/pgadmin
+    networks:
+      - cover_gen
+  spring-boot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    networks:
+      - cover_gen
+    depends_on:
+      - pgdatabase
+
+networks:
+  cover_gen:
+    driver: bridge

@@ -1,8 +1,9 @@
 package dev.maxpetrushin.cover_gen.controller;
 
 import dev.maxpetrushin.cover_gen.dto.CoverLetterRequest;
-import dev.maxpetrushin.cover_gen.service.CoverLetterService;
+import dev.maxpetrushin.cover_gen.service.implementation.DefaultCoverLetterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,17 +17,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/cover-letter")
 public class CoverLetterController {
     @Autowired
-    private CoverLetterService coverLetterService;
+    private DefaultCoverLetterService defaultCoverLetterService;
 
-    @PostMapping("/generate")
-    public ResponseEntity<String> generateCoverLetter(@RequestBody CoverLetterRequest request) {
+    @PostMapping("/generate-source")
+    public ResponseEntity<String> generateCoverLetterSource(@RequestBody CoverLetterRequest request) {
         try {
-            // Generate LaTeX content by replacing placeholders in the template
-            String coverLetter = coverLetterService.generateCoverLetter(request);
+            String coverLetter = defaultCoverLetterService.generateCoverLetterSource(request);
 
-            // Return the source text as response
             return ResponseEntity.ok()
                     .body(coverLetter);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
+        }
+    }
+
+    @PostMapping("/generate-pdf")
+    public ResponseEntity<ByteArrayResource> generateCoverLetterPdf(@RequestBody CoverLetterRequest request) {
+        try {
+            byte[] pdfCoverLetter = defaultCoverLetterService.generateCoverLetter(request);
+            ByteArrayResource resource = new ByteArrayResource(pdfCoverLetter);
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=generated.pdf")
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(resource);
         } catch (Exception e) {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

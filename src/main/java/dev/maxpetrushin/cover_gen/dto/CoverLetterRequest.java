@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CoverLetterRequest {
     private String companyName;
+    private String companyAddress;
     private String yourName;
     private String customParagraph;
 }
