@@ -8,6 +8,7 @@ spring:
     url: jdbc:postgresql://pgdatabase:5432/cover_gen
     username: root
     password: root
+    driver-class-name: org.postgresql.Driver
     jpa:
       hibernate:
         ddl-auto: update

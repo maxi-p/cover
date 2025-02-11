@@ -1,9 +1,8 @@
 package dev.maxpetrushin.cover_gen.service.implementation;
 
-import dev.maxpetrushin.cover_gen.dto.CoverLetterRequest;
+import dev.maxpetrushin.cover_gen.model.CoverLetterRequest;
 import dev.maxpetrushin.cover_gen.model.CoverLetterTemplate;
 import dev.maxpetrushin.cover_gen.service.CoverLetterService;
-import dev.maxpetrushin.cover_gen.service.FileService;
 import dev.maxpetrushin.cover_gen.service.factory.CoverLetterTemplateFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -23,4 +23,41 @@ This microservice will allow to compile and generate a cover letter based on tex
   docker-compose down
   ```
 
+## SQL Schemas
+
+### User Profile
+
+Store your default attributes in a profile
+
+```
+CREATE TABLE profile (
+  id SERIAL PRIMARY KEY,
+  profile_name VARCHAR(255),
+  default_template_source TEXT,
+  default_name VARCHAR(255),
+  default_greeting VARCHAR(255),
+  default_email VARCHAR(320),
+  default_phone VARCHAR(255),
+  default_linkedin VARCHAR(255),
+  default_github VARCHAR(255),
+  default_website VARCHAR(255),
+  default_signature_url VARCHAR(2048),
+  default_complimentary_close VARCHAR(255)
+);
+```
+
+Table for default paragraphs for your profile:
+
+```
+  CREATE TABLE paragraph (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    profile_id INT NOT NULL,
+    position INT,
+    FOREIGN KEY (profile_id)
+        REFERENCES profile(id)
+        ON DELETE CASCADE
+  );
+```
+
 WIP!

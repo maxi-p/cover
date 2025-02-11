@@ -1,6 +1,6 @@
 package dev.maxpetrushin.cover_gen.controller;
 
-import dev.maxpetrushin.cover_gen.dto.CoverLetterRequest;
+import dev.maxpetrushin.cover_gen.model.CoverLetterRequest;
 import dev.maxpetrushin.cover_gen.service.implementation.DefaultCoverLetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;

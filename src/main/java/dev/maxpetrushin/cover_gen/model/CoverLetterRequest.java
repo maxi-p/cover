@@ -1,4 +1,4 @@
-package dev.maxpetrushin.cover_gen.dto;
+package dev.maxpetrushin.cover_gen.model;
 
 
 import lombok.*;
