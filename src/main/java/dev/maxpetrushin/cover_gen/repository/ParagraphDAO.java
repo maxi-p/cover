@@ -9,5 +9,7 @@ public interface ParagraphDAO {
 
     List<ParagraphDTO> getAllParagraphs();
 
-    public ParagraphDTO getParagraphById(int id);
+    ParagraphDTO getParagraphById(int id);
+
+    List<ParagraphDTO> getParagraphsByProfileId(int profileId);
 }

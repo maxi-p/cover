@@ -4,6 +4,7 @@ import dev.maxpetrushin.cover_gen.config.DBUtils;
 import dev.maxpetrushin.cover_gen.dto.ParagraphDTO;
 import dev.maxpetrushin.cover_gen.repository.ParagraphDAO;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +43,59 @@ public class PostgresJDBCParagraphDAO implements ParagraphDAO {
 
     @Override
     public List<ParagraphDTO> getAllParagraphs() {
-        return new ArrayList<>();
+        List<ParagraphDTO> paragraphDTOList = new ArrayList<>();
+        try (var connection = DBUtils.getConnection();
+             var statement = connection.prepareStatement("SELECT * FROM paragraph;");
+             var resultSet = statement.executeQuery();) {
+            while (resultSet.next()) {
+                ParagraphDTO paragraphDTO = new ParagraphDTO();
+                transferResultSetToParagraphDTO(paragraphDTO, resultSet);
+                paragraphDTOList.add(paragraphDTO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return paragraphDTOList;
     }
 
     @Override
     public ParagraphDTO getParagraphById(int id) {
-        return new ParagraphDTO();
+        ParagraphDTO paragraphDTO = new ParagraphDTO();
+        try (var connection = DBUtils.getConnection();
+             var statement = connection.prepareStatement("SELECT * FROM paragraph WHERE id = ?;");) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                transferResultSetToParagraphDTO(paragraphDTO, resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return paragraphDTO;
+    }
+
+    @Override
+    public List<ParagraphDTO> getParagraphsByProfileId(int profileId) {
+        List<ParagraphDTO> paragraphDTOList = new ArrayList<>();
+        try (var connection = DBUtils.getConnection();
+             var statement = connection.prepareStatement("SELECT * FROM paragraph WHERE profile_id = ?;");) {
+            statement.setInt(1, profileId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ParagraphDTO paragraphDTO = new ParagraphDTO();
+                transferResultSetToParagraphDTO(paragraphDTO, resultSet);
+                paragraphDTOList.add(paragraphDTO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return paragraphDTOList;
+    }
+
+    public void transferResultSetToParagraphDTO(ParagraphDTO paragraphDTO, ResultSet resultSet) throws SQLException {
+        paragraphDTO.setId(resultSet.getInt("id"));
+        paragraphDTO.setContent(resultSet.getString("content"));
+        paragraphDTO.setProfileId(resultSet.getInt("profile_id"));
+        paragraphDTO.setPosition(resultSet.getInt("position"));
     }
 }

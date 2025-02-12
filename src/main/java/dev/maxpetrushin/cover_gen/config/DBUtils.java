@@ -1,5 +1,8 @@
 package dev.maxpetrushin.cover_gen.config;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Connection;
@@ -7,16 +10,26 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtils {
-    
-    // Injecting the database connection props from application.yml
-    @Value("${spring.datasource.url}")
     private static String dbUrl;
-    @Value("${spring.datasource.username}")
     private static String dbUsername;
-    @Value("${spring.datasource.password}")
     private static String dbPassword;
-    @Value("${spring.datasource.driver-class-name}")
     private static String dbDriver;
+
+    public static void setDbUrl(String dbUrl) {
+        DBUtils.dbUrl = dbUrl;
+    }
+
+    public static void setDbUsername(String dbUsername) {
+        DBUtils.dbUsername = dbUsername;
+    }
+
+    public static void setDbPassword(String dbPassword) {
+        DBUtils.dbPassword = dbPassword;
+    }
+
+    public static void setDbDriver(String dbDriver) {
+        DBUtils.dbDriver = dbDriver;
+    }
 
     private DBUtils() {
     }

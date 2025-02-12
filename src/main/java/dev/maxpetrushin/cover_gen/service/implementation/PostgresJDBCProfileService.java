@@ -8,6 +8,9 @@ import dev.maxpetrushin.cover_gen.repository.implementation.PostgresJDBCProfileD
 import dev.maxpetrushin.cover_gen.service.ProfileService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class PostgresJDBCProfileService implements ProfileService {
@@ -23,5 +26,17 @@ public class PostgresJDBCProfileService implements ProfileService {
     public boolean addProfile(Profile profile) {
         ProfileDTO profileDTO = profileToProfileDTO.profileToDTO(profile);
         return profileDAO.saveProfile(profileDTO);
+    }
+
+    @Override
+    public Profile getProfile(int id) {
+        ProfileDTO profileDTO = profileDAO.getProfileById(id);
+        return profileToProfileDTO.profileDTOToProfile(profileDTO);
+    }
+
+    @Override
+    public List<Profile> getAllProfiles() {
+        List<ProfileDTO> profileDTOList = profileDAO.getAllProfiles();
+        return profileToProfileDTO.profileDTOListToProfileList(profileDTOList);
     }
 }

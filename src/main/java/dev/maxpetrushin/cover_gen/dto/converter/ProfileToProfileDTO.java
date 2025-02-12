@@ -41,8 +41,11 @@ public class ProfileToProfileDTO {
         List<ParagraphDTO> paragraphDTOList = new ArrayList<>();
         profileDTO.setParagraphs(paragraphDTOList);
 
-        for (Paragraph paragraph : profile.getParagraphs()) {
-            paragraphDTOList.add(paragraphToParagraphDTO.paragraphToDTO(paragraph));
+        List<Paragraph> paragraphs = profile.getParagraphs();
+        if (paragraphs != null) {
+            for (Paragraph paragraph : profile.getParagraphs()) {
+                paragraphDTOList.add(paragraphToParagraphDTO.paragraphToDTO(paragraph));
+            }
         }
 
         return profileDTO;
@@ -65,8 +68,11 @@ public class ProfileToProfileDTO {
         List<Paragraph> paragraphList = new ArrayList<>();
         profile.setParagraphs(paragraphList);
 
-        for (ParagraphDTO paragraphDTO : profileDTO.getParagraphs()) {
-            paragraphList.add(paragraphToParagraphDTO.dtoToParagraph(paragraphDTO));
+        List<ParagraphDTO> paragraphDTOs = profileDTO.getParagraphs();
+        if (paragraphDTOs != null) {
+            for (ParagraphDTO paragraphDTO : profileDTO.getParagraphs()) {
+                paragraphList.add(paragraphToParagraphDTO.dtoToParagraph(paragraphDTO));
+            }
         }
         return profile;
     }
